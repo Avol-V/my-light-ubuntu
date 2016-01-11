@@ -1,0 +1,12 @@
+XXkb.mainwindow.enable yes
+XXkb.mainwindow.appicon: no
+XXkb.mainwindow.type: tray
+XXkb.mainwindow.geometry: 15x15+0+0
+XXkb.mainwindow.image.1: en15.xpm
+XXkb.mainwindow.image.2: ru15.xpm
+XXkb.mainwindow.image.3:
+XXkb.mainwindow.image.4:
+XXkb.button.enable: no
+XXkb.controls.add_when_start: no
+XXkb.controls.add_when_create: no
+XXkb.controls.add_when_change: no
