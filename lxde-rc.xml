@@ -291,6 +291,11 @@
 			<command>xfce4-popup-whiskermenu</command>
 		</action>
 	</keybind>
+	<keybind key="W-space">
+		<action name="Execute">
+			<command>xfce4-popup-whiskermenu</command>
+		</action>
+	</keybind>
 
 	<keybind key="C-A-l">
 		<action name="Execute">

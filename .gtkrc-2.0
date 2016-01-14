@@ -1,0 +1,12 @@
+style "xfce-panel-window-style"
+{
+	# Time in miliseconds before the panel will unhide on an enter event
+	XfcePanelWindow::popup-delay = 500
+	
+	# Time in miliseconds before the panel will hide on a leave event
+	XfcePanelWindow::popdown-delay = 300
+	
+	# Size of autohide window in pixels
+	XfcePanelWindow::autohide-size = 1
+}
+class "XfcePanelWindow" style "xfce-panel-window-style"
