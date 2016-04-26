@@ -39,9 +39,9 @@ sudo apt-get install lxternminal lxinput lxsession-edit lxshortcut lxtask lxappe
 sudo apt-get install xfce4-notifyd
 ```
 
-Некоторые дополнительные приложения — блокнот, просмотр изображений, создание скриншотов, работа с архивами:
+Некоторые дополнительные приложения — блокнот, просмотр изображений, создание скриншотов, работа с буфером обмена, работа с архивами:
 ```
-sudo apt-get install leafpad gpicview scrot xarchiver p7zip-full p7zip-rar zip unzip unar unrar-free
+sudo apt-get install leafpad gpicview scrot xclip xarchiver p7zip-full p7zip-rar zip unzip unar unrar-free
 ```
 
 Конфигурация мониторов — `arandr` вместо `lxrandr`, т. к. даёт больше возможностей:
@@ -132,7 +132,7 @@ sudo apt-get install xxkb
 Type=Application
 Name=XXKB keyboard layout indicator
 Comment=Keyboard state indicator and switcher for xkb
-Exec=sh -c "sleep 5s && xxkb"
+Exec=sh -c "sleep 30s && xxkb"
 OnlyShowIn=LXDE;
 StartupNotify=false
 Terminal=false
@@ -485,6 +485,8 @@ sudo apt-get install qt4-qtconfig
 
 ## Дополнительные приложения
 
+### Система
+
 Утилита настройки меню приложений:
 ```
 sudo apt-get install menulibre
@@ -493,33 +495,6 @@ sudo apt-get install menulibre
 Установка локальных пакетов DEB (не из репозитария):
 ```
 sudo apt-get install gdebi
-```
-
-Web-браузер (без лишних пакетов):
-```
-sudo apt-get install firefox --no-install-recommends
-```
-
-Просмотр PDF:
-```
-sudo apt-get install mupdf
-```
-MuPDF очень быстрый и лёгкий, но он вообще не даёт ни какого интерфейса, так что для продвинутой работы с PDF может пригодиться Evince:
-```
-sudo apt-get install evince
-```
-
-Медиа-проигрыватель. SMPlayer тянет за собой Qt, но с `--no-install-recommends` зависимостей получается немного. Можно было бы поставить `gnome-mplayer`, но он пытается поставить даже более странные вещи. А ещё, вместо всего этого можно поставить `vlc`, но зависимостей у него тоже немало, и Qt он тоже тянет.
-```
-sudo apt-get install mplayer2
-sudo apt-get install smplayer --no-install-recommends
-```
-
-Аудио-проигрыватель с каталогизацией (отдельные файлы отлично играет и smplayer, так что если не нужно работать с плейлистами или коллекциями, то можно не ставить):
-```
-add-apt-repository ppa:starws-box/deadbeef-player
-sudo apt-get update
-sudo apt-get install deadbeef
 ```
 
 Для режима сна и других функций управления питанием:
@@ -537,6 +512,40 @@ sudo apt-get install xfce4-power-manager
 sudo apt-get install gnome-system-tools
 ```
 
+Монтирование через SSH (+ графический запрос пароля):
+```
+sudo apt-get install sshfs
+sudo apt-get install ssh-askpass-gnome ssh-askpass
+sudo addgroup ПОЛЬЗОВАТЕЛЬ fuse
+```
+
+Драйвера nvidia нужно обязательно ставить с `--no-install-recommends`, иначе они потянут за собой половину окружения Gnome:
+```
+sudo apt-get install nvidia-352 --no-install-recommends
+sudo apt-get install nvidia-settings --no-install-recommends
+```
+
+### Офис
+
+Web-браузер (без лишних пакетов):
+```
+sudo apt-get install firefox --no-install-recommends
+```
+Ставим в Firefox «назад» по Backspace:
+```
+about:config
+browser.backspace_action = 0
+```
+
+Просмотр PDF:
+```
+sudo apt-get install mupdf
+```
+MuPDF очень быстрый и лёгкий, но он вообще не даёт ни какого интерфейса, так что для продвинутой работы с PDF может пригодиться Evince:
+```
+sudo apt-get install evince
+```
+
 Таблица символов:
 ```
 sudo apt-get install gucharmap --no-install-recommends
@@ -546,3 +555,56 @@ sudo apt-get install gucharmap --no-install-recommends
 ```
 sudo apt-get install speedcrunch
 ```
+
+Шрифты (Специальные символы, расширенный Unicode, замена times new roman + arial + courier new):
+```
+sudo apt-get install xfonts-mathml fonts-stix fonts-lyx
+sudo apt-get install unifont ttf-ancient-fonts
+sudo apt-get install ttf-liberation
+```
+
+Офисный пакет:
+```
+sudo apt-get install libreoffice --no-install-recommends
+sudo apt-get install libreoffice-gtk libreoffice-style-human
+```
+
+### Мультимедиа
+
+Медиа-проигрыватель. SMPlayer тянет за собой Qt, но с `--no-install-recommends` зависимостей получается немного. Можно было бы поставить `gnome-mplayer`, но он пытается поставить даже более странные вещи. А ещё, вместо всего этого можно поставить `vlc`, но зависимостей у него тоже немало, и Qt он тоже тянет.
+```
+sudo apt-get install mplayer2
+sudo apt-get install smplayer --no-install-recommends
+```
+
+Аудио-проигрыватель с каталогизацией (отдельные файлы отлично играет и smplayer, так что если не нужно работать с плейлистами или коллекциями, то можно не ставить):
+```
+sudo add-apt-repository ppa:starws-box/deadbeef-player
+sudo apt-get update
+sudo apt-get install deadbeef
+```
+
+### Графика
+
+Просмотр изображений, правка, массовая правка:
+```
+sudo apt-get install gthumb --no-install-recommends
+```
+
+Графический редактор:
+```
+sudo apt-get install gimp --no-install-recommends
+```
+
+## Дополнительные настройки
+
+### /tmp в оперативной памяти
+
+В `/ets/fstab`:
+```
+# /tmp on RAM
+tmpfs /tmp tmpfs defaults,noatime,nosuid,nodev,mode=1777,size=50% 0 0
+```
+
+Разрешает использовать до 50% оперативной памяти.  
+Выставление `noexec` может вызвать проблемы, т. к. программы могут помещать туда временные скрипты.
