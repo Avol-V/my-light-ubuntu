@@ -151,7 +151,9 @@ sudo apt-get install ntp
 Чтобы форсировать ресинхронизацию для случаев, когда компьютер долго не перезагружается, можно добавить перезапуск сервиса в CRON — создаём файл `/etc/cron.weekly/ntp-restart`:
 ```
 #!/bin/sh
-service ntp restart > /dev/null 2>&1 &
+service ntp stop > /dev/null 2>&1 &
+ntpdate -s ntp21.vniiftri.ru
+service ntp start > /dev/null 2>&1 &
 ```
 
 Если нужно перенастроить временную зону, то можно воспользоваться:
