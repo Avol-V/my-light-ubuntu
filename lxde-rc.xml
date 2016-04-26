@@ -10,20 +10,20 @@
 <focus>
 	<focusNew>yes</focusNew>
 	<!-- always try to focus new windows when they appear. other rules do
-	   apply -->
+		apply -->
 	<followMouse>no</followMouse>
 	<!-- move focus to a window when you move the mouse into it -->
 	<focusLast>yes</focusLast>
 	<!-- focus the last used window when changing desktops, instead of the one
-	   under the mouse pointer. when followMouse is enabled -->
+		under the mouse pointer. when followMouse is enabled -->
 	<underMouse>no</underMouse>
 	<!-- move focus under the mouse, even when the mouse is not moving -->
 	<focusDelay>200</focusDelay>
 	<!-- when followMouse is enabled, the mouse must be inside the window for
-	   this many milliseconds (1000 = 1 sec) before moving focus to it -->
+		this many milliseconds (1000 = 1 sec) before moving focus to it -->
 	<raiseOnFocus>no</raiseOnFocus>
 	<!-- when followMouse is enabled, and a window is given focus by moving the
-	   mouse into it, also raise the window -->
+		mouse into it, also raise the window -->
 </focus>
 
 <placement>
@@ -31,31 +31,31 @@
 	<!-- 'Smart' or 'UnderMouse' -->
 	<center>yes</center>
 	<!-- whether to place windows in the center of the free area found or
-	   the top left corner -->
+		the top left corner -->
 	<monitor>Mouse</monitor>
 	<!-- with Smart placement on a multi-monitor system, try to place new windows
-	   on: 'Any' - any monitor, 'Mouse' - where the mouse is, 'Active' - where
-	   the active window is -->
+		on: 'Any' - any monitor, 'Mouse' - where the mouse is, 'Active' - where
+		the active window is -->
 	<primaryMonitor>Mouse</primaryMonitor>
 	<!-- The monitor where Openbox should place popup dialogs such as the
-	   focus cycling popup, or the desktop switch popup.  It can be an index
-	   from 1, specifying a particular monitor.  Or it can be one of the
-	   following: 'Mouse' - where the mouse is, or
-	              'Active' - where the active window is -->
+		focus cycling popup, or the desktop switch popup.  It can be an index
+		from 1, specifying a particular monitor.  Or it can be one of the
+		following: 'Mouse' - where the mouse is, or
+		'Active' - where the active window is -->
 </placement>
 
 <theme>
 	<name>OB-Ambiance-Colors</name>
 	<titleLayout>NDLIMC</titleLayout>
 	<!--
-	  available characters are NDSLIMC, each can occur at most once.
-	  N: window icon
-	  L: window label (AKA title).
-	  I: iconify
-	  M: maximize
-	  C: close
-	  S: shade (roll up/down)
-	  D: omnipresent (on all desktops).
+		available characters are NDSLIMC, each can occur at most once.
+		N: window icon
+		L: window label (AKA title).
+		I: iconify
+		M: maximize
+		C: close
+		S: shade (roll up/down)
+		D: omnipresent (on all desktops).
 	-->
 	<keepBorder>yes</keepBorder>
 	<animateIconify>yes</animateIconify>
@@ -117,14 +117,14 @@
 
 <desktops>
 	<!-- this stuff is only used at startup, pagers allow you to change them
-	   during a session
-
-	   these are default values to use when other ones are not already set
-	   by other applications, or saved in your session
-
-	   use obconf if you want to change these without having to log out
-	   and back in -->
-	<number>2</number>
+		during a session
+		
+		these are default values to use when other ones are not already set
+		by other applications, or saved in your session
+		
+		use obconf if you want to change these without having to log out
+		and back in -->
+	<number>4</number>
 	<firstdesk>1</firstdesk>
 	<names>
 		<!-- set names up here if you want to, like this:
@@ -132,13 +132,13 @@
 		<name>desktop 2</name>
 		-->
 	</names>
-	<popupTime>875</popupTime>
+	<popupTime>800</popupTime>
 	<!-- The number of milliseconds to show the popup for when switching
-	   desktops.  Set this to 0 to disable the popup. -->
+		desktops.  Set this to 0 to disable the popup. -->
 </desktops>
 
 <resize>
-	<drawContents>no</drawContents>
+	<drawContents>yes</drawContents>
 	<popupShow>Always</popupShow>
 	<!-- 'Always', 'Never', or 'Nonpixel' (xterms and such) -->
 	<popupPosition>Center</popupPosition>
@@ -148,17 +148,17 @@
 
 		<x>10</x>
 		<!-- positive number for distance from left edge, negative number for
-		     distance from right edge, or 'Center' -->
+			distance from right edge, or 'Center' -->
 		<y>10</y>
 		<!-- positive number for distance from top edge, negative number for
-		     distance from bottom edge, or 'Center' -->
+			distance from bottom edge, or 'Center' -->
 	</popupFixedPosition>
 </resize>
 
 <!-- You can reserve a portion of your screen where windows will not cover when
-     they are maximized, or when they are initially placed.
-     Many programs reserve space automatically, but you can use this in other
-     cases. -->
+	they are maximized, or when they are initially placed.
+	Many programs reserve space automatically, but you can use this in other
+	cases. -->
 <margins>
 	<top>0</top>
 	<bottom>0</bottom>
@@ -338,8 +338,41 @@
 		<action name="ToggleDecorations"/>
 	</keybind>
 	<keybind key="W-KP_0">
-		<action name="ToggleMaximize"/>
+		<action name="Maximize"/>
+		<action name="Undecorate"/>
+	</keybind>
+	<keybind key="C-W-KP_0">
+		<action name="Undecorate"/>
+		<action name="MoveResizeTo">
+			<monitor>all</monitor>
+			<x>center</x>
+			<y>center</y>
+			<width>100%</width>
+			<height>100%</height>
+		</action>
+	</keybind>
+	
+	<keybind key="W-KP_Divide">
 		<action name="ToggleDecorations"/>
+	</keybind>
+	<keybind key="W-KP_Multiply">
+		<action name="Unmaximize"/>
+		<action name="MoveResizeTo">
+			<x>center</x>
+			<y>center</y>
+		</action>
+	</keybind>
+	
+	<!-- Move windows to monitors -->
+	<keybind key="W-KP_Add">
+		<action name="MoveResizeTo">
+			<monitor>next</monitor>
+		</action>
+	</keybind>
+	<keybind key="W-KP_Subtract">
+		<action name="MoveResizeTo">
+			<monitor>prev</monitor>
+		</action>
 	</keybind>
 
 	<!-- Move windows to screen corners and edges -->
@@ -384,8 +417,8 @@
 		<action name="MoveResizeTo">
 			<x>center</x>
 			<y>center</y>
-			<width>80%</width>
-			<height>80%</height>
+			<width>70%</width>
+			<height>70%</height>
 		</action>
 	</keybind>
 	<keybind key="W-KP_4">
@@ -476,17 +509,20 @@
 	<!-- Keybinding for Media actions -->
 	<keybind key="XF86AudioRaiseVolume">
 		<action name="Execute">
-			<command>amixer -q sset Master 3%+</command>
+			<!--<command>amixer -q sset Master 3%+</command>-->
+			<command>amixer -D pulse set Master playback 5%+</command>
 		</action>
 	</keybind>
 	<keybind key="XF86AudioLowerVolume">
 		<action name="Execute">
-			<command>amixer -q sset Master 3%-</command>
+			<!--<command>amixer -q sset Master 3%-</command>-->
+			<command>amixer -D pulse set Master playback 5%-</command>
 		</action>
 	</keybind>
 	<keybind key="XF86AudioMute">
 		<action name="Execute">
-			<command>amixer -q sset Master toggle</command>
+			<!--<command>amixer -q sset Master toggle</command>-->
+			<command>amixer -D pulse set Master playback toggle</command>
 		</action>
 	</keybind>
 	<keybind key="XF86WWW">
@@ -520,11 +556,11 @@
 	<!-- in milliseconds (1000 = 1 second) -->
 	<screenEdgeWarpTime>400</screenEdgeWarpTime>
 	<!-- Time before changing desktops when the pointer touches the edge of the
-	   screen while moving a window, in milliseconds (1000 = 1 second).
-	   Set this to 0 to disable warping -->
+		screen while moving a window, in milliseconds (1000 = 1 second).
+		Set this to 0 to disable warping -->
 	<screenEdgeWarpMouse>false</screenEdgeWarpMouse>
 	<!-- Set this to TRUE to move the mouse pointer across the desktop when
-	   switching due to hitting the edge of the screen -->
+		switching due to hitting the edge of the screen -->
 
 	<context name="Frame">
 		<mousebind button="W-Left" action="Press">
@@ -812,18 +848,18 @@
 
 <menu>
 	<!-- You can specify more than one menu file in here and they are all loaded,
-	   just don't make menu ids clash or, well, it'll be kind of pointless -->
+		just don't make menu ids clash or, well, it'll be kind of pointless -->
 
 	<!-- default menu file (or custom one in $HOME/.config/openbox/) -->
 	<file>/usr/share/lxde/openbox/menu.xml</file>
 	<hideDelay>200</hideDelay>
 	<!-- if a press-release lasts longer than this setting (in milliseconds), the
-	   menu is hidden again -->
+		menu is hidden again -->
 	<middle>no</middle>
 	<!-- center submenus vertically about the parent entry -->
 	<submenuShowDelay>100</submenuShowDelay>
 	<!-- this one is easy, time to delay before showing a submenu after hovering
-	   over the parent entry -->
+		over the parent entry -->
 	<applicationIcons>yes</applicationIcons>
 	<!-- controls if icons appear in the client-list-(combined-)menu -->
 	<manageDesktops>yes</manageDesktops>
@@ -913,6 +949,19 @@
 		<layer>above</layer>
 		<skip_pager>yes</skip_pager>
 	 </application>
+	<application name="lxsession-logout">
+		<position>
+			<x>center</x>
+			<y>center</y>
+			<monitor>1</monitor>
+		</position>
+		<focus>yes</focus>
+		<desktop>all</desktop>
+		<layer>above</layer>
+	</application>
+	<application class="VirtualBox">
+		<decor>no</decor>
+	</application>
 </applications>
 
 </openbox_config>
