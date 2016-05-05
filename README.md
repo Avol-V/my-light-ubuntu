@@ -212,6 +212,11 @@ sudo apt install ttf-ubuntu-font-family dmz-cursor-theme light-themes
 sudo apt install overlay-scrollbar overlay-scrollbar-gtk
 ```
 
+Дополнительные темы GTK — Clearlooks нужна для тема по умолчанию у LXDM:
+```
+sudo apt install gtk2-engines
+```
+
 ## Композитный менеджер окон
 
 Лучше не ставить — и без него всё хорошо, но он даёт некоторые дополнительные возможности приложениям для отрисовки.
@@ -514,7 +519,6 @@ sudo apt install gnome-system-tools
 ```
 sudo apt install sshfs
 sudo apt install ssh-askpass-gnome ssh-askpass
-sudo addgroup ПОЛЬЗОВАТЕЛЬ fuse
 ```
 
 Доступ к ftp, sftp, smb через менеджер файлов:
