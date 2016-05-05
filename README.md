@@ -1,6 +1,6 @@
 # Мой вариант Ubuntu с LXDE
 
-## Устанавливаем **Ubuntu server**
+## Устанавливаем **Ubuntu Server 16.04**
 
 Я решил взять серверную версию за основу — она уже достаточно полно настроена, но в ней нет GUI, что нам и требуется.
 
@@ -15,55 +15,62 @@
 * Keyboard: No/Russian/Russian/Caps Lock
 * Encrypt: No
 * Timezone (Europe/Moscow): Yes
-* Software: OpenSSH server
+* Software: Standard system utilities, OpenSSH server
 
 ## Ставим дополнительные пакеты
 
 Базовый GUI:
 ```
-sudo apt-get install nano dialog xorg lxde-core
+sudo apt install nano dialog xorg
+sudo apt install gksu lxternminal xscreensaver lxde-core lxde-common lxsession --no-install-recommends
 ```
 
 Менеджер графической сессии для входа в систему (в lubuntu используется `lightdm`; настройки можно произвести в файле `/etc/lxdm/xldm.conf`):
 ```
-sudo apt-get install lxdm
+sudo apt install lxdm
 ```
 
 Набор стандартных приложений:
 ```
-sudo apt-get install lxternminal lxinput lxsession-edit lxshortcut lxtask lxappearance lxsession-default-apps menu
+sudo apt install lxinput lxsession-edit lxshortcut lxtask lxappearance lxsession-default-apps menu  --no-install-recommends
 ```
 
 Менеджер всплывающих уведомлений — ставим `xfce4-notifyd` вместо `notification-daemon`, т. к. удобнее и работает лучше (можно настраивать через `xfce4-notifyd-config`):
 ```
-sudo apt-get install xfce4-notifyd
+sudo apt install xfce4-notifyd
 ```
 
 Некоторые дополнительные приложения — блокнот, просмотр изображений, создание скриншотов, работа с буфером обмена, работа с архивами:
 ```
-sudo apt-get install leafpad gpicview scrot xclip xarchiver p7zip-full p7zip-rar zip unzip unar unrar-free
+sudo apt install leafpad gpicview scrot xclip xarchiver p7zip-full p7zip-rar zip unzip unar unrar-free
 ```
 
 Конфигурация мониторов — `arandr` вместо `lxrandr`, т. к. даёт больше возможностей:
 ```
-sudo apt-get install arandr
+sudo apt install arandr
 ```
 
 Выполнение команды (`Alt+F2`), вместо стандартного, который требует `lxpanel`:
 ```
-sudo apt-get install gmrun
+sudo apt install gmrun
 ```
 
 ## Сеть
 
 Если не нужно настраивать сеть через графический менеджер, то можно оставить как есть и настраивать вручную через `/etc/network/interfaces`.
 
-Устанавливаем менеджер (если не нужно, пакеты pptp можно не ставить, также могут пригодиться другие пакеты, например vpn):
+Устанавливаем менеджер:
 ```
-sudo apt-get install network-manager network-manager-gnome network-manager-pptp network-manager-pptp-gnome
+sudo apt install network-manager network-manager-gnome --no-install-recommends
 ```
 
-В файле `/etc/network/interfaces` комментируем параметры для текущей сети (`eth0`) — чтобы активным остался только `lo`, т. е. эти две строки:
+Если нужно PPTP:
+```
+sudo apt install network-manager-pptp network-manager-pptp-gnome --no-install-recommends
+```
+Аналогично для VPN.
+
+В файле `/etc/network/interfaces` комментируем параметры для текущей сети (`eth0`, или другие) — чтобы активным остался только `lo`, т. е. эти две строки:
 ```
 auto lo
 iface lo inet loopback
@@ -73,40 +80,20 @@ iface lo inet loopback
 
 Для выполнения привилегированных действий требуется настроить PolicyKit:
 ```
-sudo apt-get install lxpolkit
+sudo apt install lxpolkit
 ```
 
-Далее запускаем `lxsession-default-apps` и прописываем `Core applications\Polkit agent: lxpolkit`.
-
-В файле `/etc/pam.d/lxdm`, перед
-```
-session required        pam_limits.so
-```
-добавить
-```
-session required        pam_loginuid.so
-```
-И ещё заменить
-```
-@include common-session-noninteractive
-```
-на
-```
-@include common-session
-```
+Он должен запускаться с системой, проверить что в `lxsession-default-apps` присутствует `Core applications\Polkit agent: lxpolkit`.
 
 ## Управление пакетами
 
 Графические утилиты для установки и обновления пакетов (можно и не ставить и обходиться `apt`):
 
-* `synaptic` — обычная установка пакетов из списка.
-* `lubuntu-software-center` — центр приложений Ubuntu.
-* `software-properties-gtk` — настройка источников пакетов.
-* `ubuntu-extras-keyring` — ключи для источника *extras* (независимых разработчиков).
-* `update-manager`, `update-notifier` — автоматический мониторинг обновлений.
+* `synaptic` — графическая оболочка для установки пакетов.
+* `update-notifier` — автоматический мониторинг обновлений (устанавливает и некоторые сопутствующие приложения).
 
 ```
-sudo apt-get install synaptic lubuntu-software-center software-properties-gtk update-manager update-notifier ubuntu-extras-keyring
+sudo apt-get install synaptic update-notifier --no-install-recommends
 ```
 
 ## Раскладка клавиатуры
@@ -121,7 +108,7 @@ XKBOPTIONS="grp:caps_toggle,grp_led:caps,compose:rwin,lv3:ralt_switch,nbsp:level
 
 Индикатор раскладки:
 ```
-sudo apt-get install xxkb
+sudo apt install xxkb
 ```
 
 Поместить [.xxkbrc](.xxkbrc) в домашнюю директорию — включено отображение языка флагом, отключено сохранение раскладки для отдельных окон.
@@ -145,7 +132,7 @@ Hidden=false
 
 Если нужно синхронизировать время с интернетом, то нужно поставить NTP-демон:
 ```
-sudo apt-get install ntp
+sudo apt install ntp
 ```
 
 Чтобы форсировать ресинхронизацию для случаев, когда компьютер долго не перезагружается, можно добавить перезапуск сервиса в CRON — создаём файл `/etc/cron.weekly/ntp-restart`:
@@ -165,14 +152,30 @@ sudo dpkg-reconfigure tzdata
 
 Для установки PulseAudio:
 ```
-sudo apt-get install pulseaudio pavucontrol pasystray
+sudo apt install pulseaudio pavucontrol pasystray
 ```
 
-Для индикатора звука нужно добавить `pasystray` в автозапуск.
+Для индикатора звука нужно добавить `pasystray` в автозапуск создать файл `~/.config/autostart/pasystray-autostart.desktop`:
+```
+[Desktop Entry] 
+Type=Application
+Name=PulseAudio system tray
+Comment=PulseAudio controller for the system tray
+Exec=sh -c "sleep 30s && pasystray"
+OnlyShowIn=LXDE;
+StartupNotify=false
+Terminal=false
+Hidden=false
+```
+
+Даже для PulseAudio стоит поставить набор утилит Alsa (управление звуком, воспроизведение с консоли):
+```
+sudo apt install alsa-utils
+```
 
 Если вместо PulseAudio хочется использовать Alsa, то ставим другие пакеты:
 ```
-sudo apt-get install xfce4-mixer gstreamer0.10-alsa
+sudo apt install xfce4-mixer gstreamer0.10-alsa
 ```
 
 Можно поставить `pnmixer` в качестве индикатора звука для alsa, или воспользоваться стандартным апплетом `xfce4-mixer`.
@@ -183,7 +186,7 @@ sudo apt-get install xfce4-mixer gstreamer0.10-alsa
 
 Устанавливаем панель от XFCE4 и удобное меню к нему, т. к. это меню имеет функцию поиска, избранного и удобные настройки:
 ```
-sudo apt-get install xfce4-panel xfce4-whiskermenu-plugin
+sudo apt install xfce4-panel xfce4-whiskermenu-plugin
 ```
 
 В файле `~/.config/lxsession/LXDE/autostart` заменяем
@@ -195,42 +198,26 @@ sudo apt-get install xfce4-panel xfce4-whiskermenu-plugin
 @xfce4-panel
 ```
 
-Whisker Menu Properties:
-
-* Appearance
-  * Icon: Location Icons/start-here
-  * Show application descriptions: yes
-* Behavior
-  * Switch categories by hovering: no
-  * Include favorites in recently used: yes
-  * Display recently used by default: no
-  * All Settings: [uncheck]
-  * Lock Screen: lxlock
-  * Switch Users: [uncheck]
-  * Log Out: lxsession-logout
-  * Edit Applications: [uncheck]
-
-
 ## Тема оформления
 
 Поместить файл [themerc](themerc) в директорию `~/.themes/OB-Ambiance-Colors/openbox-3/`.
 
 Шрифты, курсоры и тема Ubuntu:
 ```
-sudo apt-get install ttf-ubuntu-font-family dmz-cursor-theme light-themes
+sudo apt install ttf-ubuntu-font-family dmz-cursor-theme light-themes
 ```
 
 Для минимизированной полосы прокрутки, как в Ubuntu:
 ```
-sudo apt-get install overlay-scrollbar
+sudo apt install overlay-scrollbar overlay-scrollbar-gtk
 ```
 
 ## Композитный менеджер окон
 
-Можно не ставить, но даёт некоторые дополнительные возможности приложениям для отрисовки.
+Лучше не ставить — и без него всё хорошо, но он даёт некоторые дополнительные возможности приложениям для отрисовки.
 
 ```
-sudo apt-get install compton
+sudo apt install compton
 ```
 
 Поместить файл [.compton.conf](.compton.conf) в домашнюю директорию.
@@ -256,8 +243,8 @@ Hidden=false
 
 ```
 sudo add-apt-repository ppa:landronimirc/skippy-xd-daily
-sudo apt-get update
-sudo apt-get install skippy-xd
+sudo apt update
+sudo apt install skippy-xd
 ```
 
 Поместить файл [skippy-xd.rc](skippy-xd.rc) в директорию `~/.config/skippy-xd/`.
@@ -266,15 +253,9 @@ sudo apt-get install skippy-xd
 
 ### Менеджер сессии
 
-Добавляем в LXDM отчистку сессии после выхода пользователя — редактируем файл `/etc/lxdm/PostLogout`:
+Включаем в LXDM отчистку запущенных приложений после выхода пользователя — в файле `/etc/lxdm/PostLogout` раскомментировать:
 ```bash
-#!/bin/sh
-
-# Kills all your processes when you log out.
-killall --user $USER -TERM
-
-# Set's the desktop background to solid black. Useful if you have multiple monitors.
-xsetroot -solid black
+ps --user $USER | awk 'NR > 1 {print $1}' | xargs -t kill
 ```
 
 ### Менеджер окон
@@ -303,22 +284,21 @@ xsetroot -solid black
   * `Alt`+`Escape` — Переключиться на окно ниже.
   * `Alt`+`Пробел` — Открыть меню управления окном.
   * `Win`+`F11` — Переключение полноэкранного режима.
-  * `Shift`+`Win`+`F11` — Переключение состояния «развёрнутый без обрамления».
-  * `Win`+`Numpad0` — Включение состояния «развёрнутый без обрамления».
+  * `Win`+`Numpad0` или `Alt`+`Win`+`F11` — Включение состояния «развёрнутый без обрамления».
   * `Ctrl`+`Win`+`Numpad0` — Развернуть без обрамления, используя все мониторы.
-  * `Win`+`Numpad /` — Переключить обрамление.
+  * `Win`+`Numpad /` или `Alt`+`Win`+`\` — Переключить обрамление.
   * `Win`+`Numpad *` — Переместить в центр.
-  * `Win`+`Numpad +` — Переместить на следующий монитор.
-  * `Win`+`Numpad -` — Переместить на предыдущий монитор.
-  * `Win`+`Numpad9` — Разместить в правом верхнем углу.
-  * `Win`+`Numpad8` — Разместить сверху.
-  * `Win`+`Numpad7` — Разместить в левом верхнем углу.
-  * `Win`+`Numpad6` — Разместить справа.
-  * `Win`+`Numpad5` — Разместить по центру.
-  * `Win`+`Numpad4` — Разместить слева.
-  * `Win`+`Numpad3` — Разместить в правом нижнем углу.
-  * `Win`+`Numpad2` — Разместить снизу.
-  * `Win`+`Numpad1` — Разместить в левом нижнем углу.
+  * `Win`+`Numpad +` или `Alt`+`Win`+`=` — Переместить на следующий монитор.
+  * `Win`+`Numpad -` или `Alt`+`Win`+`-` — Переместить на предыдущий монитор.
+  * `Win`+`Numpad9` или `Alt`+`Win`+`]` — Разместить в правом верхнем углу.
+  * `Win`+`Numpad8` или `Alt`+`Win`+`[` — Разместить сверху.
+  * `Win`+`Numpad7` или `Alt`+`Win`+`p` — Разместить в левом верхнем углу.
+  * `Win`+`Numpad6` или `Alt`+`Win`+`'` — Разместить справа.
+  * `Win`+`Numpad5` или `Alt`+`Win`+`;` — Разместить по центру.
+  * `Win`+`Numpad4` или `Alt`+`Win`+`l` — Разместить слева.
+  * `Win`+`Numpad3` или `Alt`+`Win`+`/` — Разместить в правом нижнем углу.
+  * `Win`+`Numpad2` или `Alt`+`Win`+`.` — Разместить снизу.
+  * `Win`+`Numpad1` или `Alt`+`Win`+`,` — Разместить в левом нижнем углу.
 * Переключение окон:
   * `Alt`+`Tab` — Следующее окно.
   * `Shift`+`Alt`+`Tab` — Предыдущее окно.
@@ -376,8 +356,12 @@ xsetroot -solid black
 * Launching applications
   * File Namager: File Manager PCManFM
   * Terminal manager: LXTerminal
+  * Webbrowser: Firefox Web Browser
   * Launcher manager: gmrun
   * Screenshot manager: scrot
+  * PDF Reader: MuPDF
+  * Video player: SMPlayer
+  * Audio player: SMPlayer
   * Image viewer: Image Viewer
   * Text editor: Leafpad
   * Archive: Xarchiver
@@ -386,21 +370,21 @@ xsetroot -solid black
   * Window Manager: openbox
   * Polkit agent: lxpolkit
   * Lock screen manager: lxlock
-  * Audio manager: pavucontrol или xfce4-mixer (смотря что было установлено)
+  * Quit manager: lxsession-logout
   * Clipboard manager: lxclipboard
   * Security (keyring): ssh-agent
   * Proxy: build-in
 * Autostart
   * Manual
-    * @xscreensaver -no-splash
     * @xfce4-panel
     * @pcmanfm --desktop --profile LXDE
-    * @/usr/lib/policykit-1-gnome-authentication-agent-1
+    * @xscreensaver -no-splash
   * Known Applications
+    * Power Manager
     * Update Notifier
+    * PulseAudio Sound System
     * Network
-    * Keyboard state indicator and switcher for xkb
-    * Compton
+    * XXKB keyboard layout indicator
 
 Настройки `lxterminal`:
 
@@ -418,30 +402,51 @@ xsetroot -solid black
 
 Вертикальная панель (Panel Preferences):
 
-Поместить файл [.gtkrc-2.0](.gtkrc-2.0) в домашнюю директорию.
+Поместить файл [.gtkrc-2.0.mine](.gtkrc-2.0.mine) в домашнюю директорию.
 В нём заданы дополнительные настройки автоскрытия панели — задержка перед открытием (500 мс), перед скрытием (300 мс) и видимая часть после скрытия (1 пиксел, 0 задать нельзя).
 Изменения вступают в силу после logout'а или перезагрузки.
 
 * Display
   * Mode: Deskbar
   * Lock panel: yes
-  * Automatically show and hide panel: yes
+  * Automatically show and hide panel: Intelligently
   * Don't reserve space on borders: yes
   * Row Size (pixels): 30
-  * Number of rows: 2
+  * Number of rows: 1
   * Length (%): 100
   * Automatically increase the length: yes
-* Appearance (если включён композитинг)
-  * Style: Solid color
-  * Alpha: 80
-  * Color: #8C8C8C (эти три опции задают тёмный фон, который можно использовать с Ubuntu-Mono-Dark, но можно это и не менять и оставить стандартный светлый)
-  * Opacity Enter: 100
-  * Opacity Leave: 30
+* Appearance
+  * Style: None
 * Items
   * Whisker Menu
-    * Display: Icon and title
-    * Title: Menu
+    * Appearance
+      * Display: Icon
+      * Title: Menu
+      * Icon: Location Icons/start-here
+      * Use a single panel row: no
+      * Show generic application names: no
+      * Show application descriptions: yes
+      * Show menu hierarchy: no
+      * Item icons size: Small
+      * Category icon size: Smaller
+      * Background opacity: 100
+    * Behavior
+      * Switch categories by hovering: no
+      * Position search entry next to panel button: no
+      * Position categories next to panel button: no
+      * Amount of items: 10
+      * Ignore favorites: no
+      * Display by default: no
+    * Commands
+      * All Settings: [uncheck]
+      * Lock Screen: lxlock
+      * Switch Users: [uncheck]
+      * Log Out: lxsession-logout
+      * Edit Applications: menulibre
   * Workspace Switcher
+    * Number of rows: 2
+    * Show miniature view: yes
+    * Switch workspaces using the mouse wheel: yes
   * Window Buttons
     * Show button labels: no
     * Show flat buttons: yes
@@ -461,13 +466,16 @@ xsetroot -solid black
   * Notification Area
     * Maximum icon size (px): 22
     * Show frame: no
+  * Power Manager Plugin
   * Clock
+    * Layout: Digital
+    * Clock Options/Format: %H%n%M
 
 ## Для приложений, использующих Qt
 
 Устанавливаем утилиту настройки:
 ```
-sudo apt-get install qt4-qtconfig
+sudo apt install qt4-qtconfig --no-install-recommends
 ```
 
 В настройках `qtconfig-qt4`:
@@ -489,47 +497,64 @@ sudo apt-get install qt4-qtconfig
 
 Утилита настройки меню приложений:
 ```
-sudo apt-get install menulibre
+sudo apt install menulibre
 ```
 
 Установка локальных пакетов DEB (не из репозитария):
 ```
-sudo apt-get install gdebi
-```
-
-Для режима сна и других функций управления питанием:
-```
-sudo apt-get install upower
-```
-
-Если нужно полноценное управление питанием, то можно установить:
-```
-sudo apt-get install xfce4-power-manager
+sudo apt install gdebi --no-install-recommends
 ```
 
 Если нужно графическое управление пользователями (хотя вряд ли — это разовая операция):
 ```
-sudo apt-get install gnome-system-tools
+sudo apt install gnome-system-tools
 ```
 
 Монтирование через SSH (+ графический запрос пароля):
 ```
-sudo apt-get install sshfs
-sudo apt-get install ssh-askpass-gnome ssh-askpass
+sudo apt install sshfs
+sudo apt install ssh-askpass-gnome ssh-askpass
 sudo addgroup ПОЛЬЗОВАТЕЛЬ fuse
+```
+
+Доступ к ftp, sftp, smb через менеджер файлов:
+```
+sudo apt install gvfs-fuse gvfs-backends --no-install-recommends
 ```
 
 Драйвера nvidia нужно обязательно ставить с `--no-install-recommends`, иначе они потянут за собой половину окружения Gnome:
 ```
-sudo apt-get install nvidia-352 --no-install-recommends
-sudo apt-get install nvidia-settings --no-install-recommends
+sudo apt install nvidia-352 --no-install-recommends
+sudo apt install nvidia-settings --no-install-recommends
+```
+
+### Управление электропитанием
+
+Для режима сна и других функций управления питанием:
+```
+sudo apt install upower
+```
+
+Если нужно полноценное управление питанием, то можно установить виджет для панели (управление яркостью экрана, отключение экрана, переход в режим сна):
+```
+sudo apt install xfce4-power-manager
+```
+
+Дополнительные возможности по энергосбережению (переключение режимов для различных устройств и служб в зависимости от источника питания — сеть или батарея):
+```
+sudo apt install tlp
+```
+
+Просмотр состояния энергопотребления:
+```
+sudo apt install powertop
 ```
 
 ### Офис
 
 Web-браузер (без лишних пакетов):
 ```
-sudo apt-get install firefox --no-install-recommends
+sudo apt install firefox --no-install-recommends
 ```
 Ставим в Firefox «назад» по Backspace:
 ```
@@ -537,74 +562,102 @@ about:config
 browser.backspace_action = 0
 ```
 
+Альтернативный web-браузер (Chromium):
+```
+sudo apt install chromium-browser
+```
+
 Просмотр PDF:
 ```
-sudo apt-get install mupdf
+sudo apt install mupdf
 ```
 MuPDF очень быстрый и лёгкий, но он вообще не даёт ни какого интерфейса, так что для продвинутой работы с PDF может пригодиться Evince:
 ```
-sudo apt-get install evince
+sudo apt install evince
 ```
 
 Таблица символов:
 ```
-sudo apt-get install gucharmap --no-install-recommends
+sudo apt install gucharmap --no-install-recommends
 ```
 
 Калькулятор (использует Qt, но других зависимостей нет, заметно удобнее и функциональней, чем `galculator`):
 ```
-sudo apt-get install speedcrunch
+sudo apt install speedcrunch
 ```
 
 Шрифты (Специальные символы, расширенный Unicode, замена times new roman + arial + courier new):
 ```
-sudo apt-get install xfonts-mathml fonts-stix fonts-lyx
-sudo apt-get install unifont ttf-ancient-fonts
-sudo apt-get install ttf-liberation
+sudo apt install fonts-stix fonts-lyx
+sudo apt install unifont ttf-ancient-fonts
+sudo apt install ttf-liberation
 ```
 
 Офисный пакет:
 ```
-sudo apt-get install libreoffice --no-install-recommends
-sudo apt-get install libreoffice-gtk libreoffice-style-human
+sudo apt install libreoffice --no-install-recommends
+sudo apt install libreoffice-gtk libreoffice-style-human
 ```
+В меню Tools/Options/LibreOffice/View «Icons size and style» поставить в «Small Human».  
+Установить словарь http://extensions.libreoffice.org/extension-center/russian-dictionary-pack для проверки правописания.
+
+Редактор кода:
+```
+sudo apt install geany
+```
+Тёмная тема оформления: поместить https://github.com/geany/geany-themes/blob/master/colorschemes/darcula.conf в `~/.config/geany/colorschemes/`.
 
 ### Мультимедиа
 
-Медиа-проигрыватель. SMPlayer тянет за собой Qt, но с `--no-install-recommends` зависимостей получается немного. Можно было бы поставить `gnome-mplayer`, но он пытается поставить даже более странные вещи. А ещё, вместо всего этого можно поставить `vlc`, но зависимостей у него тоже немало, и Qt он тоже тянет.
+Медиа-проигрыватель:
 ```
-sudo apt-get install mplayer2
-sudo apt-get install smplayer --no-install-recommends
+sudo apt install smplayer --no-install-recommends
+```
+
+Альтернативный медиа-проигрыватель (VLC):
+```
+sudo apt install vlc
 ```
 
 Аудио-проигрыватель с каталогизацией (отдельные файлы отлично играет и smplayer, так что если не нужно работать с плейлистами или коллекциями, то можно не ставить):
 ```
 sudo add-apt-repository ppa:starws-box/deadbeef-player
-sudo apt-get update
-sudo apt-get install deadbeef
+sudo apt update
+sudo apt install deadbeef
 ```
 
 ### Графика
 
+Просмотр большого количества форматов изображений, в том числе и PSD:
+```
+sudo apt install nomacs
+```
+
 Просмотр изображений, правка, массовая правка:
 ```
-sudo apt-get install gthumb --no-install-recommends
+sudo apt install gthumb --no-install-recommends
 ```
 
 Графический редактор:
 ```
-sudo apt-get install gimp --no-install-recommends
+sudo apt install gimp --no-install-recommends
 ```
 
 ## Дополнительные настройки
 
 ### /tmp в оперативной памяти
 
-В `/ets/fstab`:
+В `/etc/fstab`:
 ```
 # /tmp on RAM
-tmpfs /tmp tmpfs defaults,noatime,nosuid,nodev,mode=1777,size=50% 0 0
+tmpfs /tmp tmpfs nosuid,nodev,mode=1777,size=50% 0 0
 ```
 
 Разрешает использовать до 50% оперативной памяти.  
 Выставление `noexec` может вызвать проблемы, т. к. программы могут помещать туда временные скрипты.
+
+Добавляем периодическую отчистку мусора в /tmp — в файле `/etc/cron.daily/tmp-gc`:
+```bash
+#!/bin/sh
+find /tmp/ -type f -atime +3 -size +4k -and -not -exec fuser -s {} ';' -and -exec rm {} ';'
+```

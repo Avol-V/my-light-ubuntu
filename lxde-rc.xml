@@ -333,9 +333,9 @@
 		<action name="ToggleFullscreen"/>
 	</keybind>
 
-	<keybind key="S-W-F11">
-		<action name="ToggleMaximize"/>
-		<action name="ToggleDecorations"/>
+	<keybind key="A-W-F11">
+		<action name="Maximize"/>
+		<action name="Undecorate"/>
 	</keybind>
 	<keybind key="W-KP_0">
 		<action name="Maximize"/>
@@ -355,6 +355,9 @@
 	<keybind key="W-KP_Divide">
 		<action name="ToggleDecorations"/>
 	</keybind>
+	<keybind key="A-W-backslash">
+		<action name="ToggleDecorations"/>
+	</keybind>
 	<keybind key="W-KP_Multiply">
 		<action name="Unmaximize"/>
 		<action name="MoveResizeTo">
@@ -369,7 +372,17 @@
 			<monitor>next</monitor>
 		</action>
 	</keybind>
+	<keybind key="A-W-equal">
+		<action name="MoveResizeTo">
+			<monitor>next</monitor>
+		</action>
+	</keybind>
 	<keybind key="W-KP_Subtract">
+		<action name="MoveResizeTo">
+			<monitor>prev</monitor>
+		</action>
+	</keybind>
+	<keybind key="A-W-minus">
 		<action name="MoveResizeTo">
 			<monitor>prev</monitor>
 		</action>
@@ -449,6 +462,88 @@
 		</action>
 	</keybind>
 	<keybind key="W-KP_1">
+		<action name="Unmaximize"/>
+		<action name="MoveResizeTo">
+			<x>0</x>
+			<y>-0</y>
+			<width>50%</width>
+			<height>50%</height>
+		</action>
+	</keybind>
+	<!-- Alternative without Numpad -->
+	<keybind key="A-W-bracketright">
+		<action name="Unmaximize"/>
+		<action name="MoveResizeTo">
+			<x>-0</x>
+			<y>0</y>
+			<width>50%</width>
+			<height>50%</height>
+		</action>
+	</keybind>
+	<keybind key="A-W-bracketleft">
+		<action name="Unmaximize"/>
+		<action name="MoveResizeTo">
+			<x>0</x>
+			<y>0</y>
+			<width>100%</width>
+			<height>50%</height>
+		</action>
+	</keybind>
+	<keybind key="A-W-p">
+		<action name="Unmaximize"/>
+		<action name="MoveResizeTo">
+			<x>0</x>
+			<y>0</y>
+			<width>50%</width>
+			<height>50%</height>
+		</action>
+	</keybind>
+	<keybind key="A-W-apostrophe">
+		<action name="Unmaximize"/>
+		<action name="MoveResizeTo">
+			<x>-0</x>
+			<y>0</y>
+			<width>50%</width>
+			<height>100%</height>
+		</action>
+	</keybind>
+	<keybind key="A-W-semicolon">
+		<action name="Unmaximize"/>
+		<action name="MoveResizeTo">
+			<x>center</x>
+			<y>center</y>
+			<width>70%</width>
+			<height>70%</height>
+		</action>
+	</keybind>
+	<keybind key="A-W-l">
+		<action name="Unmaximize"/>
+		<action name="MoveResizeTo">
+			<x>0</x>
+			<y>0</y>
+			<width>50%</width>
+			<height>100%</height>
+		</action>
+	</keybind>
+	<keybind key="A-W-slash">
+		<action name="Unmaximize"/>
+		<action name="MoveResizeTo">
+			<x>-0</x>
+			<y>-0</y>
+			<width>50%</width>
+			<height>50%</height>
+		</action>
+	</keybind>
+	<keybind key="A-W-period">
+		<action name="Unmaximize"/>
+		<action name="MoveResizeTo">
+			<x>0</x>
+			<y>-0</y>
+			<width>100%</width>
+			<height>50%</height>
+		</action>
+	</keybind>
+	<keybind key="A-W-comma">
 		<action name="Unmaximize"/>
 		<action name="MoveResizeTo">
 			<x>0</x>
