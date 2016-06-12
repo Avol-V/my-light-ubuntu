@@ -453,6 +453,10 @@ ps --user $USER | awk 'NR > 1 {print $1}' | xargs -t kill
   * Separator
     * Style: Transparent
     * Expand: yes
+  * PulseAudio Plugin
+    * Enable keyboard shortcuts for volume control: yes
+    * Show notifications when volume changes: yes
+    * Audio Mixer: pavucontrol
   * Notification Area
     * Maximum icon size (px): 22
     * Show frame: no
