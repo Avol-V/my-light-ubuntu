@@ -152,20 +152,7 @@ sudo dpkg-reconfigure tzdata
 
 Для установки PulseAudio:
 ```
-sudo apt install pulseaudio pavucontrol pasystray
-```
-
-Для индикатора звука нужно добавить `pasystray` в автозапуск создать файл `~/.config/autostart/pasystray-autostart.desktop`:
-```
-[Desktop Entry] 
-Type=Application
-Name=PulseAudio system tray
-Comment=PulseAudio controller for the system tray
-Exec=sh -c "sleep 30s && pasystray"
-OnlyShowIn=LXDE;
-StartupNotify=false
-Terminal=false
-Hidden=false
+sudo apt install pulseaudio pavucontrol xfce4-pulseaudio-plugin
 ```
 
 Даже для PulseAudio стоит поставить набор утилит Alsa (управление звуком, воспроизведение с консоли):
@@ -175,10 +162,8 @@ sudo apt install alsa-utils
 
 Если вместо PulseAudio хочется использовать Alsa, то ставим другие пакеты:
 ```
-sudo apt install xfce4-mixer gstreamer0.10-alsa
+sudo apt install gstreamer0.10-alsa pnmixer
 ```
-
-Можно поставить `pnmixer` в качестве индикатора звука для alsa, или воспользоваться стандартным апплетом `xfce4-mixer`.
 
 Проверить звук: `aplay /usr/share/sounds/alsa/Noise.wav`
 
