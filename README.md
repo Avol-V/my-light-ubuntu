@@ -22,7 +22,7 @@
 Базовый GUI:
 ```
 sudo apt install nano dialog xorg
-sudo apt install gksu lxternminal xscreensaver lxde-core lxde-common lxsession --no-install-recommends
+sudo apt install gksu lxterminal xscreensaver lxde-core lxde-common lxsession --no-install-recommends
 ```
 
 Менеджер графической сессии для входа в систему (в lubuntu используется `lightdm`; настройки можно произвести в файле `/etc/lxdm/xldm.conf`):
@@ -194,7 +194,7 @@ sudo apt install ttf-ubuntu-font-family dmz-cursor-theme light-themes
 
 Для минимизированной полосы прокрутки, как в Ubuntu:
 ```
-sudo apt install overlay-scrollbar overlay-scrollbar-gtk
+sudo apt install overlay-scrollbar overlay-scrollbar-gtk2
 ```
 
 Дополнительные темы GTK — Clearlooks нужна для тема по умолчанию у LXDM:
