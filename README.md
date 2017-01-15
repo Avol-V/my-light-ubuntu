@@ -151,6 +151,24 @@ Hidden=false
 
 ## Синхронизация времени
 
+Проверяем настройки времени:
+```
+timedatectl status
+```
+
+Если нужно, включаем синхронизацию через NTP:
+```
+sudo timedatectl set-ntp true
+```
+
+Изменяем настройки, файл `/etc/systemd/timesyncd.conf`:
+```
+[Time]
+NTP=ntp21.vniiftri.ru
+FallbackNTP=ntp.ubuntu.com 0.pool.ntp.org 1.pool.ntp.org
+```
+
+
 Если нужно синхронизировать время с интернетом, то нужно поставить NTP-демон:
 ```
 sudo apt install ntp
