@@ -64,6 +64,11 @@ sudo apt install gmrun
 sudo apt install network-manager network-manager-gnome --no-install-recommends
 ```
 
+Чтобы работал запрос пароля:
+```
+sudo apt install gnome-keyring
+```
+
 Если нужно PPTP:
 ```
 sudo apt install network-manager-pptp network-manager-pptp-gnome --no-install-recommends
