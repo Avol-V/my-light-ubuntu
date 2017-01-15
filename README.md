@@ -168,23 +168,11 @@ NTP=ntp21.vniiftri.ru
 FallbackNTP=ntp.ubuntu.com 0.pool.ntp.org 1.pool.ntp.org
 ```
 
-
-Если нужно синхронизировать время с интернетом, то нужно поставить NTP-демон:
+Перезапуск и проверка работы:
 ```
-sudo apt install ntp
-```
-
-Чтобы форсировать ресинхронизацию для случаев, когда компьютер долго не перезагружается, можно добавить перезапуск сервиса в CRON — создаём файл `/etc/cron.weekly/ntp-restart`:
-```
-#!/bin/sh
-service ntp stop > /dev/null 2>&1 &
-ntpdate -s ntp21.vniiftri.ru
-service ntp start > /dev/null 2>&1 &
-```
-
-Если нужно перенастроить временную зону, то можно воспользоваться:
-```
-sudo dpkg-reconfigure tzdata
+sudo systemctl restart systemd-timesyncd
+sudo systemctl restart systemd-networkd
+sudo systemctl status systemd-timesyncd
 ```
 
 ## Звук
