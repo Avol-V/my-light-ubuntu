@@ -101,6 +101,22 @@ sudo apt install lxpolkit
 sudo apt-get install synaptic update-notifier --no-install-recommends
 ```
 
+Форсируем еженедельную проверку. Создаём файл:
+```
+sudo nano /etc/cron.weekly/update-force-check
+```
+
+С содержимым:
+```
+#!/bin/bash
+/usr/lib/update-notifier/update-motd-updates-available --force > /dev/null 2>&1
+```
+
+Делаем исполняемым:
+```
+sudo chmod a+x /etc/cron.weekly/update-force-check
+```
+
 ## Раскладка клавиатуры
 
 Настраиваем раскладку, файл `/etc/default/keyboard`:
