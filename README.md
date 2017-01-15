@@ -32,7 +32,7 @@ sudo apt install lxdm
 
 Набор стандартных приложений:
 ```
-sudo apt install lxinput lxsession-edit lxshortcut lxtask lxappearance lxsession-default-apps menu  --no-install-recommends
+sudo apt install lxinput lxsession-edit lxshortcut lxtask lxappearance lxsession-default-apps lxsession-logout menu --no-install-recommends
 ```
 
 Менеджер всплывающих уведомлений — ставим `xfce4-notifyd` вместо `notification-daemon`, т. к. удобнее и работает лучше (можно настраивать через `xfce4-notifyd-config`):
