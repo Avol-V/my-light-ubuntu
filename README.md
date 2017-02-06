@@ -551,9 +551,9 @@ sudo apt install nvidia-settings --no-install-recommends
 Node.js (название дистрибутива можно узнать через `lsb_release -c -s`, здесь — `xenial`):
 ```
 curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | sudo apt-key add -
-sudo sh -c "echo '# NodeSource Node.js 6.x repo (https://github.com/nodesource/distributions)' > /etc/apt/sources.list.d/nodesource.list"
-sudo sh -c "echo 'deb https://deb.nodesource.com/node_6.x xenial main' >> /etc/apt/sources.list.d/nodesource.list"
-sudo sh -c "echo 'deb-src https://deb.nodesource.com/node_6.x xenial main' >> /etc/apt/sources.list.d/nodesource.list"
+sudo sh -c "echo '# NodeSource Node.js 7.x repo (https://github.com/nodesource/distributions)' > /etc/apt/sources.list.d/nodesource.list"
+sudo sh -c "echo 'deb https://deb.nodesource.com/node_7.x xenial main' >> /etc/apt/sources.list.d/nodesource.list"
+sudo sh -c "echo 'deb-src https://deb.nodesource.com/node_7.x xenial main' >> /etc/apt/sources.list.d/nodesource.list"
 sudo apt update
 sudo apt install nodejs
 ```
