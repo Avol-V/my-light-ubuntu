@@ -631,6 +631,11 @@ sudo apt install libreoffice-gtk libreoffice-style-human
 В меню Tools/Options/LibreOffice/View «Icons size and style» поставить в «Small Human».  
 Установить словарь https://extensions.libreoffice.org/extensions/russian-dictionary-pack для проверки правописания.
 
+Словари английского языка:
+```
+sudo apt install myspell-en-us hyphen-en-us mythes-en-us libreoffice-lightproof-en
+```
+
 Редактор кода:
 ```
 sudo apt install geany
